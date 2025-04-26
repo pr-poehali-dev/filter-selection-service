@@ -41,7 +41,7 @@ const Index = () => {
               <div className="text-sm text-muted-foreground">
                 {selectedBrand || selectedModel || selectedGeneration 
                   ? "Показаны отфильтрованные результаты" 
-                  : "Показаны все статьи"}
+                  : `Показаны все статьи (${posts.length})`}
               </div>
             </div>
             
