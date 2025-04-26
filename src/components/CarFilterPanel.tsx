@@ -1,79 +1,86 @@
 import { useState, useEffect } from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
-
-// Типы данных для автомобилей
-export interface CarGeneration {
-  id: string;
-  name: string;
-  years: string;
-}
-
-export interface CarModel {
-  id: string;
-  name: string;
-  generations: CarGeneration[];
-}
-
-export interface CarBrand {
-  id: string;
-  name: string;
-  models: CarModel[];
-}
+import { Brand, Model, Generation, getBrands, getModels, getGenerations } from "@/data/carData";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface CarFilterPanelProps {
-  brands: CarBrand[];
-  onFilterChange: (brand: string | null, model: string | null, generation: string | null) => void;
+  onFilterChange: (brandId: string | null, modelId: string | null, generationId: string | null) => void;
 }
 
-const CarFilterPanel = ({ brands, onFilterChange }: CarFilterPanelProps) => {
-  const [selectedBrand, setSelectedBrand] = useState<string | null>(null);
-  const [selectedModel, setSelectedModel] = useState<string | null>(null);
-  const [selectedGeneration, setSelectedGeneration] = useState<string | null>(null);
+const CarFilterPanel = ({ onFilterChange }: CarFilterPanelProps) => {
+  const [brands, setBrands] = useState<Brand[]>([]);
+  const [models, setModels] = useState<Model[]>([]);
+  const [generations, setGenerations] = useState<Generation[]>([]);
   
-  const [availableModels, setAvailableModels] = useState<CarModel[]>([]);
-  const [availableGenerations, setAvailableGenerations] = useState<CarGeneration[]>([]);
+  const [selectedBrandId, setSelectedBrandId] = useState<string | null>(null);
+  const [selectedModelId, setSelectedModelId] = useState<string | null>(null);
+  const [selectedGenerationId, setSelectedGenerationId] = useState<string | null>(null);
+  
+  const isMobile = useIsMobile();
 
-  // Обновляем доступные модели при выборе бренда
+  // Load brands on component mount
   useEffect(() => {
-    if (selectedBrand) {
-      const brand = brands.find(b => b.id === selectedBrand);
-      setAvailableModels(brand?.models || []);
+    setBrands(getBrands());
+  }, []);
+
+  // Update models when brand changes
+  useEffect(() => {
+    if (selectedBrandId) {
+      setModels(getModels(selectedBrandId));
+      setSelectedModelId(null); // Reset model selection
+      setSelectedGenerationId(null); // Reset generation selection
     } else {
-      setAvailableModels([]);
+      setModels([]);
+      setSelectedModelId(null);
     }
-    setSelectedModel(null);
-    setSelectedGeneration(null);
-  }, [selectedBrand, brands]);
+    
+    onFilterChange(selectedBrandId, null, null);
+  }, [selectedBrandId, onFilterChange]);
 
-  // Обновляем доступные поколения при выборе модели
+  // Update generations when model changes
   useEffect(() => {
-    if (selectedModel) {
-      const brand = brands.find(b => b.id === selectedBrand);
-      const model = brand?.models.find(m => m.id === selectedModel);
-      setAvailableGenerations(model?.generations || []);
+    if (selectedModelId) {
+      setGenerations(getGenerations(selectedModelId));
+      setSelectedGenerationId(null); // Reset generation selection
     } else {
-      setAvailableGenerations([]);
+      setGenerations([]);
+      setSelectedGenerationId(null);
     }
-    setSelectedGeneration(null);
-  }, [selectedModel, selectedBrand, brands]);
+    
+    onFilterChange(selectedBrandId, selectedModelId, null);
+  }, [selectedModelId, selectedBrandId, onFilterChange]);
 
-  // Уведомляем родительский компонент об изменении фильтров
+  // Notify parent component when generation changes
   useEffect(() => {
-    onFilterChange(selectedBrand, selectedModel, selectedGeneration);
-  }, [selectedBrand, selectedModel, selectedGeneration, onFilterChange]);
+    onFilterChange(selectedBrandId, selectedModelId, selectedGenerationId);
+  }, [selectedGenerationId, selectedBrandId, selectedModelId, onFilterChange]);
+
+  const handleBrandChange = (value: string) => {
+    setSelectedBrandId(value);
+  };
+
+  const handleModelChange = (value: string) => {
+    setSelectedModelId(value);
+  };
+
+  const handleGenerationChange = (value: string) => {
+    setSelectedGenerationId(value);
+  };
+
+  const handleReset = () => {
+    setSelectedBrandId(null);
+    setSelectedModelId(null);
+    setSelectedGenerationId(null);
+    onFilterChange(null, null, null);
+  };
 
   return (
-    <div className="bg-sidebar p-4 rounded-lg shadow-md space-y-4">
-      <div>
-        <Label htmlFor="brand-select" className="block mb-2 text-sm font-medium">
-          Марка автомобиля
-        </Label>
-        <Select
-          value={selectedBrand || ""}
-          onValueChange={(value) => setSelectedBrand(value || null)}
-        >
-          <SelectTrigger id="brand-select" className="w-full">
+    <div className={`bg-card border rounded-lg shadow-sm p-4 mb-6 ${isMobile ? 'flex flex-col gap-4' : 'grid grid-cols-3 gap-4'}`}>
+      <div className="space-y-2">
+        <Label htmlFor="brand">Марка автомобиля</Label>
+        <Select value={selectedBrandId || ""} onValueChange={handleBrandChange}>
+          <SelectTrigger id="brand">
             <SelectValue placeholder="Выберите марку" />
           </SelectTrigger>
           <SelectContent>
@@ -86,20 +93,18 @@ const CarFilterPanel = ({ brands, onFilterChange }: CarFilterPanelProps) => {
         </Select>
       </div>
 
-      <div>
-        <Label htmlFor="model-select" className="block mb-2 text-sm font-medium">
-          Модель
-        </Label>
-        <Select
-          value={selectedModel || ""}
-          onValueChange={(value) => setSelectedModel(value || null)}
-          disabled={!selectedBrand}
+      <div className="space-y-2">
+        <Label htmlFor="model">Модель</Label>
+        <Select 
+          value={selectedModelId || ""} 
+          onValueChange={handleModelChange}
+          disabled={!selectedBrandId}
         >
-          <SelectTrigger id="model-select" className="w-full">
-            <SelectValue placeholder={selectedBrand ? "Выберите модель" : "Сначала выберите марку"} />
+          <SelectTrigger id="model">
+            <SelectValue placeholder={selectedBrandId ? "Выберите модель" : "Сначала выберите марку"} />
           </SelectTrigger>
           <SelectContent>
-            {availableModels.map((model) => (
+            {models.map((model) => (
               <SelectItem key={model.id} value={model.id}>
                 {model.name}
               </SelectItem>
@@ -108,22 +113,20 @@ const CarFilterPanel = ({ brands, onFilterChange }: CarFilterPanelProps) => {
         </Select>
       </div>
 
-      <div>
-        <Label htmlFor="generation-select" className="block mb-2 text-sm font-medium">
-          Поколение
-        </Label>
-        <Select
-          value={selectedGeneration || ""}
-          onValueChange={(value) => setSelectedGeneration(value || null)}
-          disabled={!selectedModel}
+      <div className="space-y-2">
+        <Label htmlFor="generation">Поколение</Label>
+        <Select 
+          value={selectedGenerationId || ""} 
+          onValueChange={handleGenerationChange}
+          disabled={!selectedModelId}
         >
-          <SelectTrigger id="generation-select" className="w-full">
-            <SelectValue placeholder={selectedModel ? "Выберите поколение" : "Сначала выберите модель"} />
+          <SelectTrigger id="generation">
+            <SelectValue placeholder={selectedModelId ? "Выберите поколение" : "Сначала выберите модель"} />
           </SelectTrigger>
           <SelectContent>
-            {availableGenerations.map((gen) => (
-              <SelectItem key={gen.id} value={gen.id}>
-                {gen.name} ({gen.years})
+            {generations.map((generation) => (
+              <SelectItem key={generation.id} value={generation.id}>
+                {generation.name}
               </SelectItem>
             ))}
           </SelectContent>

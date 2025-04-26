@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import PostCard, { Post } from "./PostCard";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface FilteredPostsListProps {
   posts: Post[];
@@ -15,6 +16,7 @@ const FilteredPostsList = ({
   generationId 
 }: FilteredPostsListProps) => {
   const [filteredPosts, setFilteredPosts] = useState<Post[]>([]);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     let result = posts;
@@ -46,7 +48,7 @@ const FilteredPostsList = ({
   }
 
   return (
-    <div className="space-y-4">
+    <div className={`space-y-4 ${isMobile ? 'px-2' : ''}`}>
       {filteredPosts.map(post => (
         <PostCard key={post.id} post={post} />
       ))}
