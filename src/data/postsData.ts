@@ -1,0 +1,121 @@
+import { Post } from "@/components/PostCard";
+
+export const posts: Post[] = [
+  {
+    id: "1",
+    title: "Обзор новой Toyota Camry XV70",
+    description: "Подробный обзор преимуществ и особенностей новой Toyota Camry XV70. Узнайте о комфорте, динамике и технологических инновациях этого популярного седана.",
+    imageUrl: "https://images.unsplash.com/photo-1580273916550-e323be2ae537?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+    date: "2024-04-15",
+    brandId: "toyota",
+    brandName: "Toyota",
+    modelId: "camry",
+    modelName: "Camry",
+    generationId: "camry-xv70",
+    generationName: "XV70"
+  },
+  {
+    id: "2",
+    title: "Что нового в BMW 3-Series G20?",
+    description: "Новое поколение BMW 3-Series G20 удивляет своими технологиями и дизайном. Расскажем о ключевых отличиях от предшественника.",
+    imageUrl: "https://images.unsplash.com/photo-1556189250-72ba954cfc2b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+    date: "2024-04-10",
+    brandId: "bmw",
+    brandName: "BMW",
+    modelId: "3-series",
+    modelName: "3 Series",
+    generationId: "bmw-3-g20",
+    generationName: "G20"
+  },
+  {
+    id: "3",
+    title: "Mercedes-Benz E-Class W213: тест-драйв",
+    description: "Впечатления от тест-драйва Mercedes-Benz E-Class W213. Оцениваем комфорт, динамику и технологии нового поколения бизнес-седана.",
+    imageUrl: "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+    date: "2024-04-05",
+    brandId: "mercedes",
+    brandName: "Mercedes-Benz",
+    modelId: "e-class",
+    modelName: "E-Class",
+    generationId: "merc-e-w213",
+    generationName: "W213"
+  },
+  {
+    id: "4",
+    title: "Сравнение Toyota Corolla E210 и E170",
+    description: "Детальное сравнение двух поколений Toyota Corolla - E210 и E170. Что изменилось и стоит ли переплачивать за новую модель?",
+    imageUrl: "https://images.unsplash.com/photo-1623013438264-07a968c10d47?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+    date: "2024-04-01",
+    brandId: "toyota",
+    brandName: "Toyota",
+    modelId: "corolla",
+    modelName: "Corolla",
+    generationId: "corolla-e210",
+    generationName: "E210"
+  },
+  {
+    id: "5",
+    title: "BMW 5 Series G30: премиум-класс для бизнеса",
+    description: "Обзор бизнес-седана BMW 5 Series G30. Комфорт, технологии и статус - все, что нужно для успешного руководителя.",
+    imageUrl: "https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+    date: "2024-03-28",
+    brandId: "bmw",
+    brandName: "BMW",
+    modelId: "5-series",
+    modelName: "5 Series",
+    generationId: "bmw-5-g30",
+    generationName: "G30"
+  },
+  {
+    id: "6",
+    title: "Mercedes C-Class W205: почему выбирают его?",
+    description: "Анализ особенностей и преимуществ Mercedes C-Class W205. Разбираемся, почему этот автомобиль остается популярным на вторичном рынке.",
+    imageUrl: "https://images.unsplash.com/photo-1583356322882-85cf23a5a2e0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+    date: "2024-03-20",
+    brandId: "mercedes",
+    brandName: "Mercedes-Benz",
+    modelId: "c-class",
+    modelName: "C-Class",
+    generationId: "merc-c-w205",
+    generationName: "W205"
+  },
+  {
+    id: "7",
+    title: "Toyota Camry XV60: всё ещё актуальна?",
+    description: "Оценка актуальности Toyota Camry XV60 на современном рынке. Стоит ли покупать этот автомобиль в 2024 году?",
+    imageUrl: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+    date: "2024-03-15",
+    brandId: "toyota",
+    brandName: "Toyota",
+    modelId: "camry",
+    modelName: "Camry",
+    generationId: "camry-xv60",
+    generationName: "XV60"
+  },
+  {
+    id: "8",
+    title: "BMW 3-Series F30: оптимальный выбор с пробегом",
+    description: "Рассматриваем BMW 3-Series F30 как вариант покупки с пробегом. На что обратить внимание и какие версии предпочтительнее.",
+    imageUrl: "https://images.unsplash.com/photo-1570733577524-3a047079e80d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+    date: "2024-03-10",
+    brandId: "bmw",
+    brandName: "BMW",
+    modelId: "3-series",
+    modelName: "3 Series",
+    generationId: "bmw-3-f30",
+    generationName: "F30"
+  },
+  {
+    id: "9",
+    title: "Mercedes E-Class W212: надёжный премиум",
+    description: "История модели Mercedes E-Class W212. Достоинства и недостатки, особенности эксплуатации этого надежного бизнес-седана.",
+    imageUrl: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+    date: "2024-03-05",
+    brandId: "mercedes",
+    brandName: "Mercedes-Benz",
+    modelId: "e-class",
+    modelName: "E-Class",
+    generationId: "merc-e-w212",
+    generationName: "W212"
+  }
+];
