@@ -1,4 +1,20 @@
-import { CarBrand } from "@/components/CarFilterPanel";
+export interface Generation {
+  id: string;
+  name: string;
+  years: string;
+}
+
+export interface Model {
+  id: string;
+  name: string;
+  generations: Generation[];
+}
+
+export interface CarBrand {
+  id: string;
+  name: string;
+  models: Model[];
+}
 
 export const carBrands: CarBrand[] = [
   {
@@ -74,3 +90,23 @@ export const carBrands: CarBrand[] = [
     ]
   }
 ];
+
+// Добавляем функции, которые используются в CarFilterPanel
+export const getBrands = (): CarBrand[] => {
+  return carBrands;
+};
+
+export const getModels = (brandId: string): Model[] => {
+  const brand = carBrands.find(b => b.id === brandId);
+  return brand ? brand.models : [];
+};
+
+export const getGenerations = (modelId: string): Generation[] => {
+  for (const brand of carBrands) {
+    const model = brand.models.find(m => m.id === modelId);
+    if (model) {
+      return model.generations;
+    }
+  }
+  return [];
+};
